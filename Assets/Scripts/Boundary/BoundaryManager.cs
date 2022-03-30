@@ -16,8 +16,8 @@ public class BoundaryManager : MonoBehaviour
     [HideInInspector] public Camera _mainCamera;
 
     // Internals/Properties
-    public Vector2 ScreenBounds => _screenBounds;
-    private Vector2 _screenBounds;
+    // TODO: Efficiency handling for consistent screen bounds.
+    public Vector2 ScreenBounds { get { return new Vector2(_mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, Screen.height)).x, -_mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, Screen.height)).z); } }
 
     private void Awake()
     {
@@ -32,14 +32,10 @@ public class BoundaryManager : MonoBehaviour
         }
         #endregion
 
-        // TODO: Optional, this code would become deprecated with multiple cameras.
+        // TODO: Optional, this line of code would become deprecated with multiple cameras.
         _mainCamera = Camera.main;
 
         if (!_mainCamera.orthographic)
             Debug.LogError("BoundaryManager: Will not work properly if the main camera is not orthographic!");
-
-        _screenBounds.x = _mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, Screen.height)).x;
-        _screenBounds.y = -_mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, Screen.height)).z;
-        Debug.Log("BoundaryManager: Screen boundary size is x=" + _screenBounds.x + " y=" + _screenBounds.y);
     }
 }

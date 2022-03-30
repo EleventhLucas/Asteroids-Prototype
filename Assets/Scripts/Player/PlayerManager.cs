@@ -14,9 +14,15 @@ public struct InputStruct
 
 /// <summary>
 /// Manages input and data to/from classes like <seealso cref="PlayerMovement"/> and <seealso cref="PlayerGun"/>.
+/// <br></br>
+/// Holds constants like <seealso cref="ASTEROID_TAG"/>.
 /// </summary>
 public class PlayerManager : MonoBehaviour
 {
+    // Consts
+    public const string ASTEROID_TAG = "Asteroid";
+    public const string PLAYER_TAG = "Player";
+
     // Externals
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerGun playerGun;

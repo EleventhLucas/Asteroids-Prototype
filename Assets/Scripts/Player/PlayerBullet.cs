@@ -26,6 +26,17 @@ public class PlayerBullet : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        // Movement
         this.transform.position += this.transform.forward * bulletSpeed * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(PlayerManager.ASTEROID_TAG))
+        {
+            // TODO: points for destruction, etc.
+            other.gameObject.GetComponent<Asteroid>().Explode();
+            Destroy(this.gameObject);
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,34 +12,41 @@ public class BoundaryClamp : MonoBehaviour
 {
     // Externals
     [SerializeField] private bool mirrorToOtherSide;
+    [Header("Trails can have visual defects when mirrored.")]
+    [SerializeField] private TrailRenderer trail;
 
     // Internals
-    private Vector2 boundary;
-    private bool initialized = false;
+    private BoundaryManager boundaryManager;
+    private bool hasTrail;
+
+    private void Awake()
+    {
+        hasTrail = false;
+        try
+        {
+            trail.Clear();
+            hasTrail = true;
+        }
+        catch (Exception e)
+        {
+        }
+    }
 
     void Start()
     {
-        initialized = false;
-        GetBoundaryData();
+        boundaryManager = BoundaryManager.Instance;
     }
 
     void Update()
     {
-        if (initialized)
-            DoClamp();
-    }
-
-    private void GetBoundaryData()
-    {
-        boundary = BoundaryManager.Instance.ScreenBounds;
-        Debug.Log("BoundaryClamp: Screen boundary size is x=" + boundary.x + " y=" + boundary.y);
-        initialized = true;
+        DoClamp();
     }
 
     private void DoClamp()
     {
         // Gather Data
         Vector3 pos = this.transform.position;
+        Vector2 boundary = boundaryManager.ScreenBounds;
 
         // Crunch numbers
         if (mirrorToOtherSide)
@@ -46,10 +54,20 @@ public class BoundaryClamp : MonoBehaviour
             if (pos.x > boundary.x || pos.x < -boundary.x)
             {
                 pos.x = -pos.x;
+                if (hasTrail)
+                {
+                    trail.Clear();
+                }
+
             }
             if (pos.z > boundary.y || pos.z < -boundary.y)
             {
                 pos.z = -pos.z;
+                if (hasTrail)
+                {
+                    trail.Clear();
+                }
+
             }
         }
         pos.x = Mathf.Clamp(pos.x, -boundary.x, boundary.x);
