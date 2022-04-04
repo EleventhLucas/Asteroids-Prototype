@@ -30,7 +30,21 @@ public class PlayerBullet : MonoBehaviour
         this.transform.position += this.transform.forward * bulletSpeed * Time.deltaTime;
     }
 
+    private void FixedUpdate()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, this.transform.forward, out hit, 0.5f) || Physics.Raycast(transform.position, this.transform.forward, out hit, -0.5f))
+        {
+            ProcessTarget(hit.collider);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
+    {
+        ProcessTarget(other);
+    }
+
+    private void ProcessTarget(Collider other)
     {
         if (other.CompareTag(PlayerManager.ASTEROID_TAG))
         {

@@ -4996,10 +4996,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622c431b1c78aff4f9ea7ad2c4e55dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 0}
-  firePoint: {fileID: 0}
-  semiCooldown: 0
-  autoCooldown: 0
+  bulletPrefab: {fileID: 8407461645391923520, guid: 99ae244839e0cd64191f1d2e3da7567e, type: 3}
+  firePoint: {fileID: 569837779717855470}
+  semiCooldown: 0.05
+  autoCooldown: 0.3
 --- !u!114 &569837781607895675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5013,6 +5013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mirrorToOtherSide: 1
+  trail: {fileID: 0}
 --- !u!64 &569837781607895653
 MeshCollider:
   m_ObjectHideFlags: 0

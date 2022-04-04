@@ -2,16 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct InputStruct
-{
-    public bool fire;
-
-    public bool forward;
-    public bool backward;
-    public bool left;
-    public bool right;
-}
-
 /// <summary>
 /// Manages input and data to/from classes like <seealso cref="PlayerMovement"/> and <seealso cref="PlayerGun"/>.
 /// <br></br>
@@ -28,7 +18,13 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private PlayerGun playerGun;
 
     // Internals
-    private InputStruct input;
+    private GenericInputActions inputActions;
+    private PlayerInputStruct input;
+
+    private void Awake()
+    {
+        inputActions = new GenericInputActions();
+    }
 
     private void Update()
     {
@@ -37,13 +33,23 @@ public class PlayerManager : MonoBehaviour
         playerGun.ProcessInput(input);
     }
 
+    private void OnEnable()
+    {
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
     private void GrabInputs()
     {
-        // TODO: use new input system rather than old input system
-        input.forward = Input.GetKey(KeyCode.W);
-        input.backward = Input.GetKey(KeyCode.S);
-        input.left = Input.GetKey(KeyCode.A);
-        input.right = Input.GetKey(KeyCode.D);
-        input.fire = Input.GetKey(KeyCode.Space);
+        Vector2 data = inputActions.Player.Move.ReadValue<Vector2>();
+        input.forward = data.y > 0;
+        input.backward = data.y < 0;
+        input.right = data.x > 0;
+        input.left = data.x < 0;
+        input.fire = inputActions.Player.Fire.ReadValue<float>() > 0 ? true : false;
     }
 }

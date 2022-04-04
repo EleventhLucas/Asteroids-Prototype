@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Spaceship gun.
+/// </summary>
 public class PlayerGun : MonoBehaviour
 {
     // Externals
@@ -22,7 +25,7 @@ public class PlayerGun : MonoBehaviour
         autoTimer = autoTimer > 0 ? autoTimer - Time.deltaTime : 0f;
     }
 
-    public void ProcessInput(InputStruct input)
+    public void ProcessInput(PlayerInputStruct input)
     {
         if (input.fire)
         {

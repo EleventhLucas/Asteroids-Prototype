@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     // Internals
     private bool boosted;
 
-    public void ProcessInput(InputStruct input)
+    public void ProcessInput(PlayerInputStruct input)
     {
         // Forward
         if (input.forward)
